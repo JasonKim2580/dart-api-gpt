@@ -1,25 +1,26 @@
 openapi: 3.0.0
 info:
-  title: DART 기업 공시 API
-  description: 기업명을 통해 고유 코드를 조회하고, 해당 기업의 최근 공시 정보를 확인할 수 있는 API입니다.
+  title: DART 공시 정보 API
+  description: 이 API는 회사명을 입력하면 고유 법인코드를 반환하고, 해당 코드를 기반으로 최근 공시 보고서를 조회할 수 있습니다.
   version: 1.0.0
+
 servers:
-  - url: https://jasonkim2580.github.io/dart-api-gpt  # 실제 API 서버 주소로 대체 필요 (FastAPI 실행 주소 또는 이후 호스팅 주소)
+  - url: https://jasonkim2580.github.io/dart-api-gpt  # 실제 API 서버가 배포될 주소로 변경 필요
 
 paths:
   /get_corp_code:
     get:
-      summary: 기업명으로 고유코드 리스트 조회
+      summary: 회사명을 기반으로 고유 법인코드 조회
       parameters:
         - in: query
           name: company_name
+          required: true
           schema:
             type: string
-          required: true
-          description: 기업명 일부 또는 전체
+          description: 조회할 회사명 (예: 삼성전자)
       responses:
         '200':
-          description: 검색된 기업 리스트 반환
+          description: 일치하는 회사명과 고유코드 목록
           content:
             application/json:
               schema:
@@ -37,17 +38,17 @@ paths:
 
   /get_reports:
     get:
-      summary: 고유코드로 최근 공시 10건 조회
+      summary: 법인코드로 최근 공시 보고서 10개 조회
       parameters:
         - in: query
           name: corp_code
+          required: true
           schema:
             type: string
-          required: true
-          description: DART 고유 기업 코드
+          description: 고유 법인코드 (예: 00126380)
       responses:
         '200':
-          description: 최근 공시 목록 반환
+          description: 공시 보고서 목록 반환
           content:
             application/json:
               schema:
